@@ -2,33 +2,23 @@
   <MonoDevelop.Ide.ItemProperties.Plaza PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Plazalmpl.cs" Line="3" Column="33" />
       <File FileName="Shop.cs" Line="13" Column="36" />
-      <File FileName="ShopImpl.cs" Line="22" Column="14" />
-      <File FileName="Program.cs" Line="9" Column="40" />
-      <File FileName="Product.cs" Line="15" Column="25" />
-      <File FileName="FoodProduct.cs" Line="10" Column="8" />
-      <File FileName="ClothingProduct.cs" Line="8" Column="1" />
-      <File FileName="CmdProgram.cs" Line="40" Column="1" />
+      <File FileName="ShopImpl.cs" />
+      <File FileName="Program.cs" />
+      <File FileName="Product.cs" />
+      <File FileName="FoodProduct.cs" />
+      <File FileName="ClothingProduct.cs" />
+      <File FileName="CmdProgram.cs" />
+      <File FileName="Readme.md" Line="1" Column="11" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Plaza" expanded="True">
             <Node name="Plaza" expanded="True">
-              <Node name="CmdProgram.cs" selected="True" />
+              <Node name="Readme.md" selected="True" />
             </Node>
           </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State>
-          <Value>name</Value>
-          <Value>price</Value>
-          <Value>type</Value>
-          <Value>size</Value>
-          <Value>newProduct</Value>
-          <Value>args</Value>
         </State>
       </Pad>
     </Pads>
