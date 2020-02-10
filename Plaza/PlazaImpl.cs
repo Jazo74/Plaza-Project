@@ -4,7 +4,7 @@ namespace com.codedool.plaza.api
 {
     public class PlazaImpl : Plaza
     {
-        private List<Shop> shops;
+        private List<Shop> shops = new List<Shop>();
         public string name { get; }
         bool isOpened = false;
         public PlazaImpl(string name)
@@ -12,7 +12,7 @@ namespace com.codedool.plaza.api
             this.name = name;
         }
 
-        public List<Shop> getShops()
+        public List<Shop> GetShops()
         {
             if (!isOpened)
             {
@@ -21,7 +21,7 @@ namespace com.codedool.plaza.api
             return shops;
         }
 
-        public void addShop(Shop shop)
+        public void AddShop(Shop shop)
         {
             if (!isOpened)
             {
@@ -30,7 +30,7 @@ namespace com.codedool.plaza.api
             shops.Add(shop);
         }
 
-        public void removeShop(Shop shop)
+        public void RemoveShop(Shop shop)
         {
             if (!isOpened)
             {
@@ -46,7 +46,7 @@ namespace com.codedool.plaza.api
             throw new Exception("NoSuchShopException");
         }
 
-        public Shop findShopByName(string name)
+        public Shop FindShopByName(string name)
         {
             if (!isOpened)
             {
@@ -54,7 +54,7 @@ namespace com.codedool.plaza.api
             }
             foreach (Shop shop in shops)
             {
-                if (shop.getName() == name)
+                if (shop.GetName() == name)
                 {
                     return shop;
                 }
@@ -62,22 +62,22 @@ namespace com.codedool.plaza.api
             throw new Exception("NoSuchShopException");
         }
 
-        public bool isOpen()
+        public bool IsOpen()
         {
             return isOpened;
         }
 
-        public void open()
+        public void Open()
         {
             isOpened = true;
         }
 
-        public void close()
+        public void Close()
         {
             isOpened = false;
         }
 
-        public string toString()
+        public override string ToString()
         {
             string status = isOpened.ToString() + " - " + shops.Count.ToString();
             return status;

@@ -25,21 +25,21 @@ namespace com.codedool.plaza.api
             return calories;
         }
 
-        public override long getBarcode()
+        public override long GetBarcode()
         {
             return barcode;
         }
 
-        public override string getName()
+        public override string GetName()
         {
             return name;
         }
 
-        public override string getManufacturer()
+        public override string GetManufacturer()
         {
             return manufacturer;
         }
-        public override string toString()
+        public override string ToString()
         {
             return "BC:" + barcode.ToString() + " N:" + name + " M:" + manufacturer + " C:" + calories.ToString() + " BB:" + bestBefore.ToString();
         }

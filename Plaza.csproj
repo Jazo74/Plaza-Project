@@ -6,4 +6,9 @@
     <RootNamespace>com.codedool.plaza.api</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Shop\" />
+    <Folder Include="Plaza\" />
+    <Folder Include="Product\" />
+  </ItemGroup>
 </Project>
