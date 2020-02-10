@@ -21,9 +21,12 @@ namespace com.codedool.plaza.api
             {
                 throw new Exception("ShopIsClosedException");
             }
-            if (p)
-
-            throws new Exception("ProductAlreadyExistsException");
+            if (products.ContainsKey(product.getBarcode()))
+            {
+                throw new Exception("ProductAlreadyExistsException");
+            }
+            ShopEntryImpl shopEntryImpl = new ShopEntryImpl(product, quantity, price);
+            products.Add(product.getBarcode(), shopEntryImpl);
         }
 
         public void addProduct(long barcode, int quantity)
@@ -96,45 +99,47 @@ namespace com.codedool.plaza.api
             private Product product;
             private int quantity;
             private float price;
-            private ShopEntryImpl(Product product, int quantity, float price)
+            public ShopEntryImpl(Product product, int quantity, float price)
             {
-
+                this.product = product;
+                this.quantity = quantity;
+                this.price = price;
             }
             public Product getProduct()
             {
-
+                return product;
             }
             public void setProduct(Product product)
             {
-
+                this.product = product;
             }
             public int getQuantity()
             {
-
+                return quantity;
             }
             public void setQuantity(int quantity)
             {
-
+                this.quantity = quantity;
             }
             public void increaseQuantity(int amount)
             {
-
+                this.quantity += amount;
             }
             public void decreaseQuantity(int amount)
             {
-
+                this.quantity -= amount;
             }
             public float getPrice()
             {
-
+                return price;
             }
             public void setPrice(int price)
             {
-
+                this.price = price;
             }
             public override String toString()
             {
-
+                return product.getName() + quantity.ToString() + price.ToString();
             }
         }
         
