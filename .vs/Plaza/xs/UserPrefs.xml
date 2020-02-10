@@ -1,16 +1,12 @@
 ﻿<Properties StartupConfiguration="{50EC8C5D-A547-4C54-BD60-493F35EBD917}|Default">
   <MonoDevelop.Ide.ItemProperties.Plaza PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ShopImpl.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Shop.cs" Line="16" Column="118" />
-      <File FileName="ShopImpl.cs" Line="22" Column="62" />
-      <File FileName="Program.cs" Line="1" Column="1" />
-      <File FileName="Product.cs" Line="8" Column="18" />
-      <File FileName="FoodProduct.cs" Line="25" Column="29" />
-      <File FileName="ClothingProduct.cs" Line="35" Column="33" />
-      <File FileName="CmdProgram.cs" Line="25" Column="67" />
-      <File FileName="PlazaImpl.cs" Line="30" Column="29" />
-      <File FileName="Plaza.cs" Line="9" Column="96" />
+      <File FileName="ShopImpl.cs" Line="143" Column="43" />
+      <File FileName="Shop.cs" Line="24" Column="1" />
+      <File FileName="Plaza.cs" Line="1" Column="1" />
+      <File FileName="FoodProduct.cs" Line="1" Column="1" />
+      <File FileName="Product.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,6 +16,12 @@
               <Node name="ShopImpl.cs" selected="True" />
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>newName</Value>
+          <Value>zone2.HabitatName</Value>
         </State>
       </Pad>
     </Pads>

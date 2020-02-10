@@ -31,17 +31,66 @@ namespace com.codedool.plaza.api
 
         public void addProduct(long barcode, int quantity)
         {
-            throw new NotImplementedException();
+            if (!isOpened)
+            {
+                throw new Exception("ShopIsClosedException");
+            }
+            foreach (KeyValuePair< long, ShopImpl.ShopEntryImpl> item in products)
+            {
+                if (item.Key == barcode)
+                {
+                    item.Value.increaseQuantity(quantity);
+                }
+            }
+            throw new Exception("NoSuchProductException");
         }
 
         public Product buyProduct(long barcode)
         {
-            throw new NotImplementedException();
+            if (!isOpened)
+            {
+                throw new Exception("ShopIsClosedException");
+            }
+            foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
+            {
+                if (item.Key == barcode)
+                {
+                    if (item.Value.getQuantity() < 1)
+                    {
+                        throw new Exception("OutOfStockException");
+                    }
+                    item.Value.decreaseQuantity(1);
+                    return item.Value.getProduct();
+                }
+            }
+            throw new Exception("NoSuchProductException");
         }
 
         public List<Product> buyProducts(long barcode, int quantity)
         {
-            throw new NotImplementedException();
+            List<Product> productList = new List<Product>();
+            if (!isOpened)
+            {
+                throw new Exception("ShopIsClosedException");
+            }
+            foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
+            {
+                if (item.Key == barcode)
+                {
+                    if (item.Value.getQuantity() < quantity)
+                    {
+                        throw new Exception("OutOfStockException");
+                    }
+                    item.Value.decreaseQuantity(quantity);
+                    for (int count = 0; count < quantity; count++)
+                    {
+                        productList.Add(item.Value.getProduct()); 
+                    }
+                    
+                    return productList;
+                }
+            }
+            throw new Exception("NoSuchProductException");
         }
 
         public void close()
@@ -51,7 +100,18 @@ namespace com.codedool.plaza.api
 
         public Product findByName(string name)
         {
-            throw new NotImplementedException();
+            if (!isOpened)
+            {
+                throw new Exception("ShopIsClosedException");
+            }
+            foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
+            {
+                if (item.Value.getProduct().getName() == name)
+                {
+                    return item.Value.getProduct();
+                }
+            }
+            throw new Exception("NoSuchProductException");
         }
 
         public string getName()
@@ -66,17 +126,48 @@ namespace com.codedool.plaza.api
 
         public float getPrice(long barcode)
         {
-            throw new NotImplementedException();
+            if (!isOpened)
+            {
+                throw new Exception("ShopIsClosedException");
+            }
+            foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
+            {
+                if (item.Key == barcode)
+                {
+                    return item.Value.getPrice();
+                }
+            }
+            throw new Exception("NoSuchProductException");
         }
 
         public List<Product> getProducts()
         {
-            throw new NotImplementedException();
+            if (!isOpened)
+            {
+                throw new Exception("ShopIsClosedException");
+            }
+            List<Product> productList = new List<Product>();
+            foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
+            {
+                for (int quantity = 0;  quantity < item.Value.getQuantity(); quantity++)
+                {
+                    productList.Add(item.Value.getProduct());
+                }
+            }
+            return productList;
         }
 
         public bool hasProduct(long barcode)
         {
-            throw new NotImplementedException();
+            if (!isOpened)
+            {
+                throw new Exception("ShopIsClosedException");
+            }
+            if (products.ContainsKey(barcode))
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool isOpen()
@@ -91,7 +182,7 @@ namespace com.codedool.plaza.api
 
         public string toString()
         {
-            throw new NotImplementedException();
+            return "N: " + name + " O: " + owner + " Open: " + isOpened.ToString() + " Count: " + products.Count.ToString();
         }
 
         private class ShopEntryImpl //Inner CLASS!!!
@@ -99,7 +190,7 @@ namespace com.codedool.plaza.api
             private Product product;
             private int quantity;
             private float price;
-            public ShopEntryImpl(Product product, int quantity, float price)
+            internal ShopEntryImpl(Product product, int quantity, float price)
             {
                 this.product = product;
                 this.quantity = quantity;
@@ -137,7 +228,7 @@ namespace com.codedool.plaza.api
             {
                 this.price = price;
             }
-            public override String toString()
+            public override string ToString()
             {
                 return product.getName() + quantity.ToString() + price.ToString();
             }
