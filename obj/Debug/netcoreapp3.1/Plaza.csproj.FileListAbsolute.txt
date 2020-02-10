@@ -1,0 +1,11 @@
+/Users/JarmyZ/Projects/Plaza/bin/Debug/netcoreapp3.1/Plaza
+/Users/JarmyZ/Projects/Plaza/bin/Debug/netcoreapp3.1/Plaza.deps.json
+/Users/JarmyZ/Projects/Plaza/bin/Debug/netcoreapp3.1/Plaza.runtimeconfig.json
+/Users/JarmyZ/Projects/Plaza/bin/Debug/netcoreapp3.1/Plaza.runtimeconfig.dev.json
+/Users/JarmyZ/Projects/Plaza/bin/Debug/netcoreapp3.1/Plaza.dll
+/Users/JarmyZ/Projects/Plaza/bin/Debug/netcoreapp3.1/Plaza.pdb
+/Users/JarmyZ/Projects/Plaza/obj/Debug/netcoreapp3.1/Plaza.csprojAssemblyReference.cache
+/Users/JarmyZ/Projects/Plaza/obj/Debug/netcoreapp3.1/Plaza.AssemblyInfoInputs.cache
+/Users/JarmyZ/Projects/Plaza/obj/Debug/netcoreapp3.1/Plaza.AssemblyInfo.cs
+/Users/JarmyZ/Projects/Plaza/obj/Debug/netcoreapp3.1/Plaza.dll
+/Users/JarmyZ/Projects/Plaza/obj/Debug/netcoreapp3.1/Plaza.pdb
