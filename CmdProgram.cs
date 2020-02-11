@@ -155,7 +155,12 @@ namespace com.codecool.plaza.cmdprog
                     shopName = AnyInput("Which shop you want to enter?: ");
                     try
                     {
-                        MenuShop(myPlaza.FindShopByName(shopName));
+                        bool shopbool = true;
+                        while (shopbool)
+                        {
+                            MenuShop(myPlaza.FindShopByName(shopName));
+                            shopbool = ChooseShop();
+                        }
                     }
                     catch (PlazaIsClosedException)
                     {
@@ -180,17 +185,59 @@ namespace com.codecool.plaza.cmdprog
             Console.Clear();
             Console.WriteLine("Welcome the the " + shop.GetName() + " plaza!");
             Console.WriteLine();
-            Console.WriteLine("(1) Check if the plaza is open or not.");
-            Console.WriteLine("(2) Open the plaza.");
-            Console.WriteLine("(3) Close the plaza.");
-            Console.WriteLine("(4) List all shops.");
-            Console.WriteLine("(5) Add a new shop.");
-            Console.WriteLine("(6) Remove an existing shop.");
-            Console.WriteLine("(7) Enter a shop by name.");
+            Console.WriteLine("(4) Open the shop");
+            Console.WriteLine("(4) Close the shop");
+            Console.WriteLine("(1) List available products");
+            Console.WriteLine("(2) Find a product by name.");
+            Console.WriteLine("(3) Display the shop's owner");
+            Console.WriteLine("(5) Add new product to the shop");
+            Console.WriteLine("(6) Add existing products to the shop");
+            Console.WriteLine("(7) Buy a product by barcode");
+            Console.WriteLine("(7) Check price by barcode");
             Console.WriteLine("(0) Exit");
             Console.WriteLine();
         }
+        bool ChooseShop()
+        {
+            string choice = AnyInput("Please choose an option...");
+            switch (choice)
+            {
+                case "1":
+                    Console.Clear();
+                    AnyInput("Press any key to continue...");
+                    return true;
+                case "2":
+                    Console.Clear();
+                    Thread.Sleep(1000);
+                    return true;
+                case "3":
+                    Console.Clear();
+                    Thread.Sleep(1000);
+                    return true;
+                case "4":
+                    Console.Clear();
+                    AnyInput("Press any key to continue...");
+                    return true;
+                case "5":
+                    Console.Clear();
+                    Thread.Sleep(1000);
+                    return true;
+                case "6":
+                    Console.Clear();
 
+                    Thread.Sleep(1000);
+                    return true;
+                case "7":
+                    Console.Clear();
+                    Thread.Sleep(1000);
+                    return true;
+                case "0":
+                    Console.Clear();
+                    return false;
+                default:
+                    return true;
+            }
+        }
         public int IntInput(string inputMessage)
         {
             int number;
