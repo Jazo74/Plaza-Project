@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace com.codedool.plaza.api
+namespace com.codecool.plaza.api
 {
     public class ShopImpl : Shop
     {
@@ -20,11 +20,11 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             if (products.ContainsKey(product.GetBarcode()))
             {
-                throw new Exception("ProductAlreadyExistsException");
+                throw new ProductAlreadyExistsException();
             }
             ShopEntryImpl shopEntryImpl = new ShopEntryImpl(product, quantity, price);
             products.Add(product.GetBarcode(), shopEntryImpl);
@@ -34,7 +34,7 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             foreach (KeyValuePair< long, ShopImpl.ShopEntryImpl> item in products)
             {
@@ -43,14 +43,14 @@ namespace com.codedool.plaza.api
                     item.Value.IncreaseQuantity(quantity);
                 }
             }
-            throw new Exception("NoSuchProductException");
+            throw new NoSuchProductException();
         }
 
         public Product BuyProduct(long barcode)
         {
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
             {
@@ -58,13 +58,13 @@ namespace com.codedool.plaza.api
                 {
                     if (item.Value.GetQuantity() < 1)
                     {
-                        throw new Exception("OutOfStockException");
+                        throw new OutOfStockException();
                     }
                     item.Value.DecreaseQuantity(1);
                     return item.Value.GetProduct();
                 }
             }
-            throw new Exception("NoSuchProductException");
+            throw new NoSuchProductException();
         }
 
         public List<Product> BuyProducts(long barcode, int quantity)
@@ -72,7 +72,7 @@ namespace com.codedool.plaza.api
             List<Product> productList = new List<Product>();
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
             {
@@ -80,7 +80,7 @@ namespace com.codedool.plaza.api
                 {
                     if (item.Value.GetQuantity() < quantity)
                     {
-                        throw new Exception("OutOfStockException");
+                        throw new OutOfStockException();
                     }
                     item.Value.DecreaseQuantity(quantity);
                     for (int count = 0; count < quantity; count++)
@@ -91,7 +91,7 @@ namespace com.codedool.plaza.api
                     return productList;
                 }
             }
-            throw new Exception("NoSuchProductException");
+            throw new NoSuchProductException();
         }
 
         public void Close()
@@ -103,7 +103,7 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
             {
@@ -112,7 +112,7 @@ namespace com.codedool.plaza.api
                     return item.Value.GetProduct();
                 }
             }
-            throw new Exception("NoSuchProductException");
+            throw new NoSuchProductException();
         }
 
         public string GetName()
@@ -129,7 +129,7 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
             {
@@ -138,14 +138,14 @@ namespace com.codedool.plaza.api
                     return item.Value.GetPrice();
                 }
             }
-            throw new Exception("NoSuchProductException");
+            throw new NoSuchProductException();
         }
 
         public List<Product> GetProducts()
         {
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             List<Product> productList = new List<Product>();
             foreach (KeyValuePair<long, ShopImpl.ShopEntryImpl> item in products)
@@ -162,7 +162,7 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("ShopIsClosedException");
+                throw new ShopIsClosedException();
             }
             if (products.ContainsKey(barcode))
             {

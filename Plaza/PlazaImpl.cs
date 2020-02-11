@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace com.codedool.plaza.api
+namespace com.codecool.plaza.api
 {
     public class PlazaImpl : Plaza
     {
@@ -16,7 +16,7 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("PlazaIsClosedException");
+                throw new PlazaIsClosedException();
             }
             return shops;
         }
@@ -25,7 +25,7 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("PlazaIsClosedException");
+                throw new PlazaIsClosedException();
             }
             shops.Add(shop);
         }
@@ -34,7 +34,7 @@ namespace com.codedool.plaza.api
         {
             if (!isOpened)
             {
-                throw new Exception("PlazaIsClosedException");
+                throw new PlazaIsClosedException();
             }
             for (int index = shops.Count-1; index >= 0; index--)
             {
@@ -43,14 +43,14 @@ namespace com.codedool.plaza.api
                     shops.RemoveAt(index);
                 }
             }
-            throw new Exception("NoSuchShopException");
+            throw new NoSuchShopException();
         }
 
         public Shop FindShopByName(string name)
         {
             if (!isOpened)
             {
-                throw new Exception("PlazaIsClosedException");
+                throw new PlazaIsClosedException();
             }
             foreach (Shop shop in shops)
             {
@@ -59,7 +59,7 @@ namespace com.codedool.plaza.api
                     return shop;
                 }
             }
-            throw new Exception("NoSuchShopException");
+            throw new NoSuchShopException();
         }
 
         public bool IsOpen()

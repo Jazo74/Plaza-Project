@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using com.codedool.plaza.api;
+using com.codecool.plaza.api;
 
 namespace com.codecool.plaza.cmdprog
 {
@@ -88,47 +88,85 @@ namespace com.codecool.plaza.cmdprog
                 case "3":
                     Console.Clear();
                     myPlaza.Close();
-                    Console.WriteLine("The plaza has just opened.");
+                    Console.WriteLine("The plaza has just closed.");
                     Thread.Sleep(1000);
                     return true;
                 case "4":
                     Console.Clear();
-                    if (myPlaza.GetShops().Count > 0)
+                    try
                     {
-                        foreach (Shop aShop in myPlaza.GetShops())
+                        if (myPlaza.GetShops().Count > 0)
                         {
-                            Console.WriteLine(aShop.ToString());
+                            foreach (Shop aShop in myPlaza.GetShops())
+                            {
+                                Console.WriteLine(aShop.ToString());
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("There are no shops in the Plaza.");
                         }
                     }
-                    else
+                    catch (PlazaIsClosedException)
                     {
-                        Console.WriteLine("There are no shops in the Plaza.");
+                        Console.WriteLine("The Plaza is closed.");
                     }
                     AnyInput("Press any key to continue...");
                     return true;
                 case "5":
                     Console.Clear();
-                    string name = AnyInput("The name of the new shop?: ");
+                    string shopName = AnyInput("The name of the new shop?: ");
                     string owner = AnyInput("The owner of the new shop?: ");
-                    Shop shop = new ShopImpl(name, owner);
-                    myPlaza.AddShop(shop);
-                    Console.WriteLine("A new shop has added the plaza.");
+                    try
+                    {
+                        Shop shop = new ShopImpl(shopName, owner);
+                        myPlaza.AddShop(shop);
+                        Console.WriteLine("A new shop has added the plaza.");
+                    }
+                    catch (PlazaIsClosedException)
+                    {
+                        Console.WriteLine("The Plaza is closed.");
+                    }
+                    catch (ShopAlreadyExistsException)
+                    {
+                        Console.WriteLine("This shop is already exist.");
+                    }
                     Thread.Sleep(1000);
                     return true;
                 case "6":
                     Console.Clear();
-                    AnyInput("Press any key to continue...");
+                    shopName = AnyInput("The shop name to remove?: ");
+                    try
+                    {
+                        myPlaza.RemoveShop(myPlaza.FindShopByName(shopName));
+                    }
+                    catch (PlazaIsClosedException)
+                    {
+                        Console.WriteLine("The Plaza is closed.");
+                    }
+                    catch (NoSuchShopException)
+                    {
+                        Console.WriteLine("No shop is exist with this name.");
+                    }
+                    Thread.Sleep(1000);
                     return true;
                 case "7":
                     Console.Clear();
-                    AnyInput("Press any key to continue...");
-                    return true;
-                case "8":
-                    Console.Clear();
-                    AnyInput("Press any key to continue...");
-                    return true;
-                case "9":
-                    Console.Clear();
+                    shopName = AnyInput("Which shop you want to enter?: ");
+                    try
+                    {
+                        MenuShop(myPlaza.FindShopByName(shopName));
+                    }
+                    catch (PlazaIsClosedException)
+                    {
+                        Console.WriteLine("The Plaza is closed.");
+                    }
+                    catch (NoSuchShopException)
+                    {
+                        Console.WriteLine("No shop is exist with this name.");
+                    }
+                    Console.WriteLine("Entering the shop.");
+                    Thread.Sleep(1000);
                     return true;
                 case "0":
                     Console.Clear();
@@ -136,9 +174,22 @@ namespace com.codecool.plaza.cmdprog
                 default:
                     return true;
             }
-
         }
-
+        void MenuShop(Shop shop)
+        {
+            Console.Clear();
+            Console.WriteLine("Welcome the the " + shop.GetName() + " plaza!");
+            Console.WriteLine();
+            Console.WriteLine("(1) Check if the plaza is open or not.");
+            Console.WriteLine("(2) Open the plaza.");
+            Console.WriteLine("(3) Close the plaza.");
+            Console.WriteLine("(4) List all shops.");
+            Console.WriteLine("(5) Add a new shop.");
+            Console.WriteLine("(6) Remove an existing shop.");
+            Console.WriteLine("(7) Enter a shop by name.");
+            Console.WriteLine("(0) Exit");
+            Console.WriteLine();
+        }
 
         public int IntInput(string inputMessage)
         {

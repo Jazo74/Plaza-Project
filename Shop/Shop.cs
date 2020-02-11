@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace com.codedool.plaza.api
+namespace com.codecool.plaza.api
 {
     public interface Shop
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace com.codedool.plaza.api
+namespace com.codecool.plaza.api
 {
     public class ClothingProduct : Product
     {
