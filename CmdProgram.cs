@@ -159,7 +159,7 @@ namespace com.codecool.plaza.cmdprog
                         while (shopbool)
                         {
                             MenuShop(myPlaza.FindShopByName(shopName));
-                            shopbool = ChooseShop();
+                            shopbool = ChooseShop(myPlaza.FindShopByName(shopName));
                         }
                     }
                     catch (PlazaIsClosedException)
@@ -185,54 +185,221 @@ namespace com.codecool.plaza.cmdprog
             Console.Clear();
             Console.WriteLine("Welcome the the " + shop.GetName() + " plaza!");
             Console.WriteLine();
-            Console.WriteLine("(4) Open the shop");
-            Console.WriteLine("(4) Close the shop");
-            Console.WriteLine("(1) List available products");
-            Console.WriteLine("(2) Find a product by name.");
-            Console.WriteLine("(3) Display the shop's owner");
-            Console.WriteLine("(5) Add new product to the shop");
-            Console.WriteLine("(6) Add existing products to the shop");
-            Console.WriteLine("(7) Buy a product by barcode");
-            Console.WriteLine("(7) Check price by barcode");
-            Console.WriteLine("(0) Exit");
+            Console.WriteLine("(1) Is the shop open?");
+            Console.WriteLine("(2) Open the shop");
+            Console.WriteLine("(3) Close the shop");
+            Console.WriteLine("(4) List available products");
+            Console.WriteLine("(5) Find a product by name.");
+            Console.WriteLine("(6) Display the shop's owner");
+            Console.WriteLine("(7) Add new product to the shop");
+            Console.WriteLine("(8) Add existing products to the shop");
+            Console.WriteLine("(9) Buy a product by barcode");
+            Console.WriteLine("(10) Buy multiple products by barcode");
+            Console.WriteLine("(11) Check price by barcode");
+            Console.WriteLine("(0) Back to the main menu");
             Console.WriteLine();
         }
-        bool ChooseShop()
+        bool ChooseShop(Shop shop)
         {
             string choice = AnyInput("Please choose an option...");
             switch (choice)
             {
                 case "1":
                     Console.Clear();
+                    Console.WriteLine(shop.IsOpen().ToString());
                     AnyInput("Press any key to continue...");
                     return true;
                 case "2":
                     Console.Clear();
+                    shop.Open();
+                    Console.WriteLine("The shop has just opened.");
                     Thread.Sleep(1000);
                     return true;
                 case "3":
                     Console.Clear();
+                    shop.Close();
+                    Console.WriteLine("The shop has just closed.");
                     Thread.Sleep(1000);
                     return true;
                 case "4":
                     Console.Clear();
+                    foreach (Product product in shop.GetProducts())
+                    {
+                        Console.WriteLine(product.GetName() + " - " + product.GetManufacturer());
+                    }
                     AnyInput("Press any key to continue...");
                     return true;
                 case "5":
                     Console.Clear();
-                    Thread.Sleep(1000);
+                    try
+                    {
+                        string productName = AnyInput("The name of the product: ");
+                        Product product = shop.FindByName(productName);
+                        Console.WriteLine(product.ToString());
+                        AnyInput("Press any key to continue...");
+                    }
+                    catch (ShopIsClosedException)
+                    {
+                        Console.WriteLine("The shop is closed.");
+                        Thread.Sleep(1000);
+                    }
+                    catch (NoSuchProductException)
+                    {
+                        Console.WriteLine("There is no such product with this name.");
+                        Thread.Sleep(1000);
+                    }
                     return true;
                 case "6":
                     Console.Clear();
-
-                    Thread.Sleep(1000);
+                    Console.WriteLine(shop.GetOwner());
+                    AnyInput("Press any key to continue...");
                     return true;
                 case "7":
+                    try
+                    {
+                        Console.Clear();
+                        Console.WriteLine("(1) Add a new foodproduct");
+                        Console.WriteLine("(2) Add a new clothing product");
+                        while (true)
+                        {
+                            int input = IntInput("Choose an option...");
+                            long barcode = LongInput("The barcode of the product: ");
+                            string name = AnyInput("The name of the product: ");
+                            string manufacturer = AnyInput("The manufacturer of the product: ");
+                            if (input == 1)
+                            {
+                                int calories = IntInput("The calorie of the product: ");
+                                DateTime bestBefore = DateTimeInput("The expiration date of the product: ");
+                                FoodProduct foodProduct = new FoodProduct(barcode, name, manufacturer, calories, bestBefore);
+                                int quantity = IntInput("The quantity of the product: ");
+                                int price = IntInput("The price of the product: ");
+                                shop.AddNewProduct(foodProduct, quantity, price);
+                                Console.WriteLine("The new product has added to the shop.");
+                                Thread.Sleep(1000);
+                                break;
+                            }
+                            else if (input == 2)
+                            {
+                                string material = AnyInput("The material of the product: ");
+                                string type = AnyInput("The type of the product: ");
+                                ClothingProduct clothingProduct = new ClothingProduct(barcode, name, manufacturer, material, type);
+                                int quantity = IntInput("The quantity of the product: ");
+                                int price = IntInput("The price of the product: ");
+                                shop.AddNewProduct(clothingProduct, quantity, price);
+                                Console.WriteLine("The new product has added to the shop.");
+                                Thread.Sleep(1000);
+                                break;
+                            }
+                        }
+                    }
+                    catch (ShopIsClosedException)
+                    {
+                        Console.WriteLine("The shop is closed");
+                        Thread.Sleep(1000);
+                    }
+                    catch (ProductAlreadyExistsException)
+                    {
+                        Console.WriteLine("The product is already exist");
+                        Thread.Sleep(1000);
+                    }
+                    return true;
+                case "8":
                     Console.Clear();
-                    Thread.Sleep(1000);
+                    try
+                    {
+                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        int quantity = IntInput("The quantity");
+                        shop.AddProduct(barcode, quantity);
+                        Console.WriteLine("The product is added to the shop");
+                        Thread.Sleep(1000);
+                    }
+                    catch (ShopIsClosedException)
+                    {
+                        Console.WriteLine("The shop is closed");
+                        Thread.Sleep(1000);
+                    }
+                    catch (NoSuchProductException)
+                    {
+                        Console.WriteLine("There is no product with this name");
+                        Thread.Sleep(1000);
+                    }
+                    return true;
+                case "9":
+                    Console.Clear();
+                    try
+                    {
+                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        shop.BuyProduct(barcode);
+                        Console.WriteLine("The product is bought from the shop");
+                        Thread.Sleep(1000);
+                    }
+                    catch (ShopIsClosedException)
+                    {
+                        Console.WriteLine("The shop is closed");
+                        Thread.Sleep(1000);
+                    }
+                    catch (NoSuchProductException)
+                    {
+                        Console.WriteLine("There is no product with this name");
+                        Thread.Sleep(1000);
+                    }
+                    catch (OutOfStockException)
+                    {
+                        Console.WriteLine("The shop has run out of this product");
+                        Thread.Sleep(1000);
+                    }
+                    return true;
+                case "10":
+                    Console.Clear();
+                    try
+                    {
+                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        int quantity = IntInput("The quantity");
+                        shop.BuyProducts(barcode, quantity);
+                        Console.WriteLine("The products are bought from the shop");
+                        Thread.Sleep(1000);
+                    }
+                    catch (ShopIsClosedException)
+                    {
+                        Console.WriteLine("The shop is closed");
+                        Thread.Sleep(1000);
+                    }
+                    catch (NoSuchProductException)
+                    {
+                        Console.WriteLine("There is no product with this name");
+                        Thread.Sleep(1000);
+                    }
+                    catch (OutOfStockException)
+                    {
+                        Console.WriteLine("The shop has not enough from this product");
+                        Thread.Sleep(1000);
+                    }
+                    return true;
+                case "11":
+                    Console.Clear();
+                    try
+                    {
+                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        Console.WriteLine("The price is: " + shop.GetPrice(barcode).ToString());
+                        AnyInput("Press any key to continue...");
+                    }
+                    catch (ShopIsClosedException)
+                    {
+                        Console.WriteLine("The shop is closed");
+                        Thread.Sleep(1000);
+                    }
+                    catch (NoSuchProductException)
+                    {
+                        Console.WriteLine("There is no product with this name");
+                        Thread.Sleep(1000);
+                    }
+                    catch (OutOfStockException)
+                    {
+                        Console.WriteLine("The shop has not enough from this product");
+                        Thread.Sleep(1000);
+                    }
                     return true;
                 case "0":
-                    Console.Clear();
                     return false;
                 default:
                     return true;
@@ -321,6 +488,19 @@ namespace com.codecool.plaza.cmdprog
         {
             if (text == "true") { return true; }
             else { return false; }
+        }
+        public DateTime DateTimeInput(string inputMessage)
+        {
+            Console.Write(inputMessage);
+            while (true)
+            {
+                DateTime date = new DateTime();
+                string input = Console.ReadLine();
+                if (DateTime.TryParse(input, out date))
+                {
+                    return DateTime.Parse(input);
+                }
+            }
         }
     }
 }

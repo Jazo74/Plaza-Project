@@ -1,13 +1,12 @@
 ﻿<Properties StartupConfiguration="{50EC8C5D-A547-4C54-BD60-493F35EBD917}|Default">
   <MonoDevelop.Ide.ItemProperties.Plaza PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CmdProgram.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="CmdProgram.cs" Line="168" Column="61" />
-      <File FileName="Plaza/Plaza.cs" Line="1" Column="1" />
-      <File FileName="Plaza/PlazaImpl.cs" Line="1" Column="1" />
+      <File FileName="CmdProgram.cs" Line="402" Column="26" />
+      <File FileName="Shop/ShopImpl.cs" Line="123" Column="33" />
       <File FileName="Product/FoodProduct.cs" Line="1" Column="1" />
-      <File FileName="Program.cs" Line="1" Column="1" />
-      <File FileName="Shop/ShopImpl.cs" Line="1" Column="1" />
+      <File FileName="Product/ClothingProduct.cs" Line="1" Column="1" />
+      <File FileName="Shop/Shop.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
