@@ -183,7 +183,7 @@ namespace com.codecool.plaza.api
 
         public override string ToString()
         {
-            return "Name: " + name + " Owner: " + owner + " Open: " + isOpened.ToString() + " Count: " + products.Count.ToString();
+            return "Name: " + name + ", Owner: " + owner + ", Open: " + isOpened.ToString() + ", Product count: " + products.Count.ToString();
         }
 
         private class ShopEntryImpl //Inner CLASS!!!

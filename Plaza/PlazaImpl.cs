@@ -32,6 +32,7 @@ namespace com.codecool.plaza.api
 
         public void RemoveShop(Shop shop)
         {
+            bool found = false;
             if (!isOpened)
             {
                 throw new PlazaIsClosedException();
@@ -41,9 +42,10 @@ namespace com.codecool.plaza.api
                 if (shops[index] == shop)
                 {
                     shops.RemoveAt(index);
+                    found = true;
                 }
             }
-            throw new NoSuchShopException();
+            if (!found) { throw new NoSuchShopException(); }
         }
 
         public Shop FindShopByName(string name)

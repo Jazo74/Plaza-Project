@@ -36,7 +36,7 @@ namespace com.codecool.plaza.api
         }
         public override string ToString()
         {
-            return "BC:" + barcode.ToString() + " N:" + name + " M:" + manufacturer + " Mat:" + material + " T:" + type;
+            return "Barcode:" + barcode.ToString() + ", Name:" + name + ", Manufacturer:" + manufacturer + ", Material:" + material + ", Type:" + type;
         }
     }
 }

@@ -76,7 +76,14 @@ namespace com.codecool.plaza.cmdprog
             {
                 case "1":
                     Console.Clear();
-                    Console.WriteLine(myPlaza.IsOpen().ToString());
+                    if (myPlaza.IsOpen())
+                    {
+                        Console.WriteLine("The plaza is open.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("The plaza is close");
+                    }
                     AnyInput("Press any key to continue...");
                     return true;
                 case "2":
@@ -158,6 +165,8 @@ namespace com.codecool.plaza.cmdprog
                         bool shopbool = true;
                         while (shopbool)
                         {
+                            Console.WriteLine("Entering the shop.");
+                            Thread.Sleep(1000);
                             MenuShop(myPlaza.FindShopByName(shopName));
                             shopbool = ChooseShop(myPlaza.FindShopByName(shopName));
                         }
@@ -170,8 +179,6 @@ namespace com.codecool.plaza.cmdprog
                     {
                         Console.WriteLine("No shop is exist with this name.");
                     }
-                    Console.WriteLine("Entering the shop.");
-                    Thread.Sleep(1000);
                     return true;
                 case "0":
                     Console.Clear();
@@ -183,20 +190,20 @@ namespace com.codecool.plaza.cmdprog
         void MenuShop(Shop shop)
         {
             Console.Clear();
-            Console.WriteLine("Welcome the the " + shop.GetName() + " plaza!");
+            Console.WriteLine("Welcome the the " + shop.GetName() + " !");
             Console.WriteLine();
-            Console.WriteLine("(1) Is the shop open?");
-            Console.WriteLine("(2) Open the shop");
-            Console.WriteLine("(3) Close the shop");
-            Console.WriteLine("(4) List available products");
-            Console.WriteLine("(5) Find a product by name.");
-            Console.WriteLine("(6) Display the shop's owner");
-            Console.WriteLine("(7) Add new product to the shop");
-            Console.WriteLine("(8) Add existing products to the shop");
-            Console.WriteLine("(9) Buy a product by barcode");
+            Console.WriteLine("(1)  Is the shop open?");
+            Console.WriteLine("(2)  Open the shop");
+            Console.WriteLine("(3)  Close the shop");
+            Console.WriteLine("(4)  List available products");
+            Console.WriteLine("(5)  Find a product by name.");
+            Console.WriteLine("(6)  Display the shop's owner");
+            Console.WriteLine("(7)  Add new product to the shop");
+            Console.WriteLine("(8)  Add existing products to the shop");
+            Console.WriteLine("(9)  Buy a product by barcode");
             Console.WriteLine("(10) Buy multiple products by barcode");
             Console.WriteLine("(11) Check price by barcode");
-            Console.WriteLine("(0) Back to the main menu");
+            Console.WriteLine("(0)  Back to the main menu");
             Console.WriteLine();
         }
         bool ChooseShop(Shop shop)
@@ -204,32 +211,47 @@ namespace com.codecool.plaza.cmdprog
             string choice = AnyInput("Please choose an option...");
             switch (choice)
             {
-                case "1":
+                case "1": // is the shop open?
                     Console.Clear();
-                    Console.WriteLine(shop.IsOpen().ToString());
+                    if (shop.IsOpen())
+                    {
+                        Console.WriteLine("The shop is open.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("The shop is closed.");
+                    }
                     AnyInput("Press any key to continue...");
                     return true;
-                case "2":
+                case "2": // open shop
                     Console.Clear();
                     shop.Open();
                     Console.WriteLine("The shop has just opened.");
                     Thread.Sleep(1000);
                     return true;
-                case "3":
+                case "3": // close shop
                     Console.Clear();
                     shop.Close();
                     Console.WriteLine("The shop has just closed.");
                     Thread.Sleep(1000);
                     return true;
-                case "4":
+                case "4": // list the products
                     Console.Clear();
-                    foreach (Product product in shop.GetProducts())
+                    try
                     {
-                        Console.WriteLine(product.GetName() + " - " + product.GetManufacturer());
+                        foreach (Product product in shop.GetProducts())
+                        {
+                            Console.WriteLine(product.ToString());
+                        }
+                    }
+                    catch (ShopIsClosedException)
+                    {
+                        Console.WriteLine("The shop is closed.");
+                        Thread.Sleep(1000);
                     }
                     AnyInput("Press any key to continue...");
                     return true;
-                case "5":
+                case "5": // find a product by name
                     Console.Clear();
                     try
                     {
@@ -249,12 +271,12 @@ namespace com.codecool.plaza.cmdprog
                         Thread.Sleep(1000);
                     }
                     return true;
-                case "6":
+                case "6": // get the owner of the shop
                     Console.Clear();
                     Console.WriteLine(shop.GetOwner());
                     AnyInput("Press any key to continue...");
                     return true;
-                case "7":
+                case "7": // add new product
                     try
                     {
                         Console.Clear();
@@ -262,6 +284,7 @@ namespace com.codecool.plaza.cmdprog
                         Console.WriteLine("(2) Add a new clothing product");
                         while (true)
                         {
+                            if (!shop.IsOpen()) { throw new ShopIsClosedException(); }
                             int input = IntInput("Choose an option...");
                             long barcode = LongInput("The barcode of the product: ");
                             string name = AnyInput("The name of the product: ");
@@ -303,10 +326,11 @@ namespace com.codecool.plaza.cmdprog
                         Thread.Sleep(1000);
                     }
                     return true;
-                case "8":
+                case "8": // add existing product
                     Console.Clear();
                     try
                     {
+                        if (!shop.IsOpen()) { throw new ShopIsClosedException(); }
                         long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
                         int quantity = IntInput("The quantity");
                         shop.AddProduct(barcode, quantity);
@@ -324,11 +348,12 @@ namespace com.codecool.plaza.cmdprog
                         Thread.Sleep(1000);
                     }
                     return true;
-                case "9":
+                case "9": //Buy a product
                     Console.Clear();
                     try
                     {
-                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        if (!shop.IsOpen()) { throw new ShopIsClosedException(); }
+                        long barcode = LongInput("The barcode of the product");
                         shop.BuyProduct(barcode);
                         Console.WriteLine("The product is bought from the shop");
                         Thread.Sleep(1000);
@@ -349,11 +374,12 @@ namespace com.codecool.plaza.cmdprog
                         Thread.Sleep(1000);
                     }
                     return true;
-                case "10":
+                case "10": // Buy products
                     Console.Clear();
                     try
                     {
-                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        if (!shop.IsOpen()) { throw new ShopIsClosedException(); }
+                        long barcode = LongInput("The barcode of the product");
                         int quantity = IntInput("The quantity");
                         shop.BuyProducts(barcode, quantity);
                         Console.WriteLine("The products are bought from the shop");
@@ -375,11 +401,11 @@ namespace com.codecool.plaza.cmdprog
                         Thread.Sleep(1000);
                     }
                     return true;
-                case "11":
+                case "11": // Get the price
                     Console.Clear();
                     try
                     {
-                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        long barcode = LongInput("The barcode of the product");
                         Console.WriteLine("The price is: " + shop.GetPrice(barcode).ToString());
                         AnyInput("Press any key to continue...");
                     }
@@ -491,9 +517,9 @@ namespace com.codecool.plaza.cmdprog
         }
         public DateTime DateTimeInput(string inputMessage)
         {
-            Console.Write(inputMessage);
             while (true)
             {
+                Console.Write(inputMessage);
                 DateTime date = new DateTime();
                 string input = Console.ReadLine();
                 if (DateTime.TryParse(input, out date))

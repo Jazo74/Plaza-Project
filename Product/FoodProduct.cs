@@ -41,7 +41,7 @@ namespace com.codecool.plaza.api
         }
         public override string ToString()
         {
-            return "BC:" + barcode.ToString() + " N:" + name + " M:" + manufacturer + " C:" + calories.ToString() + " BB:" + bestBefore.ToString();
+            return "Barcode:" + barcode.ToString() + ", Name:" + name + ", Manufacturer:" + manufacturer + ", Calorie:" + calories.ToString() + ", Bestbefore:" + bestBefore.ToString();
         }
     }
 }
