@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.Plaza PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="CmdProgram.cs" Line="172" Column="26" />
-      <File FileName="Shop/ShopImpl.cs" Line="186" Column="107" />
+      <File FileName="CmdProgram.cs" Line="189" Column="76" />
+      <File FileName="Shop/ShopImpl.cs" Line="7" Column="29" />
       <File FileName="Product/FoodProduct.cs" Line="44" Column="110" />
       <File FileName="Product/ClothingProduct.cs" Line="39" Column="142" />
       <File FileName="Shop/Shop.cs" Line="1" Column="1" />

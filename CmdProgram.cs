@@ -8,8 +8,8 @@ namespace com.codecool.plaza.cmdprog
     public class CmdProgram
     {
         private Plaza myPlaza;
-        private List<Product> cart;
-        private List<float> prices;
+        private List<Product> cart = new List<Product>();
+        private List<float> prices = new List<float>();
 
         public CmdProgram(String[] args)
         {
@@ -53,6 +53,7 @@ namespace com.codecool.plaza.cmdprog
             Console.WriteLine("(5) Add a new shop.");
             Console.WriteLine("(6) Remove an existing shop.");
             Console.WriteLine("(7) Enter a shop by name.");
+            Console.WriteLine("(8) Listing the shopping cart.");
             Console.WriteLine("(0) Exit");
             Console.WriteLine();
         }
@@ -74,31 +75,31 @@ namespace com.codecool.plaza.cmdprog
             string choice = AnyInput("Please choose an option...");
             switch (choice)
             {
-                case "1":
+                case "1": //is the plaza opened?
                     Console.Clear();
                     if (myPlaza.IsOpen())
                     {
-                        Console.WriteLine("The plaza is open.");
+                        Console.WriteLine("The plaza is opened.");
                     }
                     else
                     {
-                        Console.WriteLine("The plaza is close");
+                        Console.WriteLine("The plaza is closed");
                     }
                     AnyInput("Press any key to continue...");
                     return true;
-                case "2":
+                case "2": // open the plaza
                     Console.Clear();
                     myPlaza.Open();
                     Console.WriteLine("The plaza has just opened.");
                     Thread.Sleep(1000);
                     return true;
-                case "3":
+                case "3": // close plaza
                     Console.Clear();
                     myPlaza.Close();
                     Console.WriteLine("The plaza has just closed.");
                     Thread.Sleep(1000);
                     return true;
-                case "4":
+                case "4": // list the shops
                     Console.Clear();
                     try
                     {
@@ -120,7 +121,7 @@ namespace com.codecool.plaza.cmdprog
                     }
                     AnyInput("Press any key to continue...");
                     return true;
-                case "5":
+                case "5": // add new shop
                     Console.Clear();
                     string shopName = AnyInput("The name of the new shop?: ");
                     string owner = AnyInput("The owner of the new shop?: ");
@@ -140,7 +141,7 @@ namespace com.codecool.plaza.cmdprog
                     }
                     Thread.Sleep(1000);
                     return true;
-                case "6":
+                case "6": // remove a shop
                     Console.Clear();
                     shopName = AnyInput("The shop name to remove?: ");
                     try
@@ -157,7 +158,7 @@ namespace com.codecool.plaza.cmdprog
                     }
                     Thread.Sleep(1000);
                     return true;
-                case "7":
+                case "7": // entering a shop
                     Console.Clear();
                     shopName = AnyInput("Which shop you want to enter?: ");
                     try
@@ -179,8 +180,25 @@ namespace com.codecool.plaza.cmdprog
                     {
                         Console.WriteLine("No shop is exist with this name.");
                     }
+                    Thread.Sleep(1000);
                     return true;
-                case "0":
+                case "8": // listing the cart
+                    Console.Clear();
+                    if (cart.Count == 0)
+                    {
+                        Console.WriteLine("There is no product in the cart.");
+                    }
+                    else
+                    {
+                        for (int index = 0; index < cart.Count; index++)
+                        {
+                            Console.Write(cart[index].ToString());
+                            Console.WriteLine(", Price: " + prices[index].ToString());
+                        }
+                    }
+                    AnyInput("Press any key to continue...");
+                    return true;
+                case "0": // Exit program
                     Console.Clear();
                     return false;
                 default:
@@ -215,7 +233,7 @@ namespace com.codecool.plaza.cmdprog
                     Console.Clear();
                     if (shop.IsOpen())
                     {
-                        Console.WriteLine("The shop is open.");
+                        Console.WriteLine("The shop is opened.");
                     }
                     else
                     {
@@ -237,11 +255,28 @@ namespace com.codecool.plaza.cmdprog
                     return true;
                 case "4": // list the products
                     Console.Clear();
+                    Dictionary<long, int> quanityOfProduct = new Dictionary<long, int>();
+                    Dictionary<long, Product> ProductsDictionary = new Dictionary<long, Product>();
                     try
                     {
                         foreach (Product product in shop.GetProducts())
                         {
-                            Console.WriteLine(product.ToString());
+                            long barcode = product.GetBarcode();
+                            if (quanityOfProduct.ContainsKey(barcode))
+                            {
+                                quanityOfProduct[barcode] += + 1;
+                            }
+                            else
+                            {
+                                quanityOfProduct.Add(barcode, 1);
+                                ProductsDictionary.Add(barcode, product);
+                            }
+                        }
+                        foreach (KeyValuePair<long, int> item in quanityOfProduct)
+                        {
+                            Product product = ProductsDictionary[item.Key];
+                            Console.Write(product.ToString());
+                            Console.WriteLine(", Quantity: " + item.Value);
                         }
                     }
                     catch (ShopIsClosedException)
@@ -331,7 +366,7 @@ namespace com.codecool.plaza.cmdprog
                     try
                     {
                         if (!shop.IsOpen()) { throw new ShopIsClosedException(); }
-                        long barcode = shop.FindByName(AnyInput("The name of the product")).GetBarcode();
+                        long barcode = LongInput("The barcode of the product");
                         int quantity = IntInput("The quantity");
                         shop.AddProduct(barcode, quantity);
                         Console.WriteLine("The product is added to the shop");
@@ -354,7 +389,9 @@ namespace com.codecool.plaza.cmdprog
                     {
                         if (!shop.IsOpen()) { throw new ShopIsClosedException(); }
                         long barcode = LongInput("The barcode of the product");
-                        shop.BuyProduct(barcode);
+                        Product boughtProduct = shop.BuyProduct(barcode);
+                        cart.Add(boughtProduct);
+                        prices.Add(shop.GetPrice(boughtProduct.GetBarcode()));
                         Console.WriteLine("The product is bought from the shop");
                         Thread.Sleep(1000);
                     }
@@ -381,7 +418,12 @@ namespace com.codecool.plaza.cmdprog
                         if (!shop.IsOpen()) { throw new ShopIsClosedException(); }
                         long barcode = LongInput("The barcode of the product");
                         int quantity = IntInput("The quantity");
-                        shop.BuyProducts(barcode, quantity);
+                        List<Product> boughtProducts = shop.BuyProducts(barcode, quantity);
+                        foreach (Product product in boughtProducts)
+                        {
+                            cart.Add(product);
+                            prices.Add(shop.GetPrice(product.GetBarcode()));
+                        }
                         Console.WriteLine("The products are bought from the shop");
                         Thread.Sleep(1000);
                     }
